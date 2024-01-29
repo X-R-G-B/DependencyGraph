@@ -18,11 +18,17 @@ fn main() {
 		eprintln(fp.usage())
 		exit(1)
 	}
+	mut deps := []DependencyGraph{}
 	for folder in folders {
 		println('Processing ${folder} ...')
 		dep := process_folder(folder, a_string) or {
 			eprintln(err)
 			continue
 		}
+		deps << dep
+	}
+	output_d2(deps) or {
+		eprintln(err)
+		exit(1)
 	}
 }

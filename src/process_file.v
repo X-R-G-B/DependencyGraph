@@ -14,9 +14,12 @@ fn process_file(file string, language string) !DependencyGraph {
 	if !os.is_file(file) {
 		return error("not a file ${file}")
 	}
-	dep := DependencyGraph{
+	mut dep := DependencyGraph{
 		language: language,
 		file_path: file,
+	}
+	if is_haskell_file(file) {
+		process_file_haskell(mut dep)!
 	}
 	return dep
 }
