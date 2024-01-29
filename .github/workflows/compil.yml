@@ -24,14 +24,13 @@ jobs:
 
   ubuntu-latest:
     runs-on: ubuntu-latest
-    container: archlinux:latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Install Deps
-        run: bash ./scripts/installDeps.sh
+        run: ./scripts/installDeps.sh
 
       - name: Compil
         run: ./deps/v-master/v run ./scripts/build.vsh
