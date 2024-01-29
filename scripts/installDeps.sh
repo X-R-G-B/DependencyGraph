@@ -7,10 +7,21 @@
 # ./deps/cosmocc-bin/unzip.exe "./deps/cosmocc.zip" -d "./deps/cosmocc"
 # rm "./deps/cosmocc.zip"
 
-rm -rf "./deps/v-master"
-./deps/cosmocc-bin/curl.exe -sSLfo "./deps/vlang.zip" "https://github.com/vlang/v/archive/refs/heads/master.zip"
-./deps/cosmocc-bin/unzip.exe "./deps/vlang.zip" -d "./deps"
-rm "./deps/vlang.zip"
+CURL="./deps/cosmocc-bin/curl.exe"
+UNZIP="./deps/cosmocc-bin/unzip.exe"
+MAKE="./deps/cosmocc-bin/make.exe"
 
-./deps/cosmocc-bin/make.exe \
+rm -rf "./deps/v-master"
+if [ "$1" == "useSystem" ]; then
+    CURL="curl"
+    UNZIP="unzip"
+    MAKE="make"
+fi
+
+$CURL -sSLfo "./deps/vlang.zip" "https://github.com/vlang/v/archive/refs/heads/master.zip"
+$UNZIP "./deps/vlang.zip" -d "./deps"
+
+$MAKE \
     -C "./deps/v-master"
+
+rm "./deps/vlang.zip"
