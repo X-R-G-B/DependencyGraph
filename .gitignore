@@ -2,7 +2,7 @@
 main
 DependencyGraph
 dg
-./deps/v-master
+deps/v-master
 *.exe
 !deps/cosmocc-bin/curl.exe
 !deps/cosmocc-bin/unzip.exe
