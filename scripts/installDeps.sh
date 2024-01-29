@@ -12,7 +12,7 @@ UNZIP="./deps/cosmocc-bin/unzip.exe"
 MAKE="./deps/cosmocc-bin/make.exe"
 
 rm -rf "./deps/v-master"
-if [ "$1" == "useSystem" ]; then
+if [ "$1" = "useSystem" ]; then
     CURL="curl"
     UNZIP="unzip"
     MAKE="make"
