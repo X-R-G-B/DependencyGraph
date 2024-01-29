@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Deps
-        run: ./scripts/InstallDeps.ps1
+        run: ./scripts/installDeps.ps1
 
       - name: Compil
         run: .\deps\v-master\v run .\scripts\build.vsh
@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Deps
-        run: ./scripts/InstallDeps.sh
+        run: ./scripts/installDeps.sh
 
       - name: Compil
         run: ./deps/v-master/v run ./scripts/build.vsh
@@ -49,7 +49,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Deps
-        run: ./scripts/InstallDeps.sh
+        run: ./scripts/installDeps.sh
 
       - name: Compil
         run: ./deps/v-master/v run ./scripts/build.vsh
