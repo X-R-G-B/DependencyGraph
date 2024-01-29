@@ -29,8 +29,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Update
+        run: sudo apt-get update && sudo apt-get upgrade -y
+
       - name: Install Deps
-        run: bash ./scripts/installDeps.sh
+        run: ./scripts/installDeps.sh
 
       - name: Compil
         run: ./deps/v-master/v run ./scripts/build.vsh
