@@ -52,7 +52,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Deps
-        run: ./scripts/installDeps.sh
+        run: ./scripts/installDeps.sh useSystem
 
       - name: Compil
         run: ./deps/v-master/v run ./scripts/build.vsh
