@@ -1,0 +1,61 @@
+name: Compil
+
+on: [push]
+
+jobs:
+  compil-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Deps
+        run: ./scripts/InstallDeps.ps1
+
+      - name: Compil
+        run: .\deps\v-master\v run .\scripts\build.vsh
+
+      - name: Upload Binary Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dg.exe
+          path: ./dg.exe
+
+  ubuntu-latest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Deps
+        run: ./scripts/InstallDeps.sh
+
+      - name: Compil
+        run: ./deps/v-master/v run ./scripts/build.vsh
+
+      - name: Upload Binary Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dg-linux
+          path: ./dg
+
+  macos-latest:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Deps
+        run: ./scripts/InstallDeps.sh
+
+      - name: Compil
+        run: ./deps/v-master/v run ./scripts/build.vsh
+
+      - name: Upload Binary Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dg-macos
+          path: ./dg
