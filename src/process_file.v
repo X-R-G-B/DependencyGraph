@@ -7,7 +7,7 @@ pub mut:
 	language		string
 	file_path		string
 	name			[]string
-	dependencies	[]string
+	dependencies	[][]string
 }
 
 fn process_file(file string, language string) !DependencyGraph {
@@ -15,10 +15,10 @@ fn process_file(file string, language string) !DependencyGraph {
 		return error("not a file ${file}")
 	}
 	mut dep := DependencyGraph{
-		language: language,
 		file_path: file,
 	}
-	if is_haskell_file(file) {
+	if language == 'haskell' && is_haskell_file(file) {
+		dep.language = language
 		process_file_haskell(mut dep)!
 	}
 	return dep
