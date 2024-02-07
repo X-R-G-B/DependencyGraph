@@ -16,10 +16,10 @@ fn process_file_haskell(mut dep &DependencyGraph) ! {
 		name.drop(1)
 	}
 	if 'src' in name {
-		name.drop(name.index('src'))
+		name.drop(name.index('src') + 1)
 	}
 	if 'app' in name {
-		name.drop(name.index('app'))
+		name.drop(name.index('app') + 1)
 	}
 	name[name.len - 1] = name.last().all_before_last(os.file_ext(name.last()))
 	dep.name << name
