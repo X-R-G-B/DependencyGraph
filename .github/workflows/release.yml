@@ -1,0 +1,97 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+env:
+  BRANCH: "main"
+
+jobs:
+  release-create:
+    permissions: write-all
+    runs-on: ubuntu-latest
+
+    outputs:
+      release: ${{ steps.release.outputs.release_tag }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: release
+        name: Create Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [[ "${{ github.ref }}" == 'refs/heads/main' ]]; then
+            export GITHUB_OUTPUT=$GITHUB_OUTPUT
+            bash ./.github/workflows/release.sh "${{ env.BRANCH }}"
+          else
+            echo "release_tag=0.0.0" >> $GITHUB_OUTPUT
+          fi
+
+  release-windows:
+    runs-on: windows-latest
+    needs: [release-create]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Deps
+        run: ./scripts/installDeps.ps1
+
+      - name: Compil
+        run: .\deps\v-master\v run .\scripts\build.vsh
+
+      - name: Upload To Release
+        if: github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload ${{ needs.release-create.outputs.release }} "./dg.exe#dg-windows.exe"
+
+  release-linux:
+    runs-on: ubuntu-latest
+    needs: [release-create]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Deps
+        run: ./scripts/installDeps.sh useSystem
+
+      - name: Compil
+        run: ./deps/v-master/v run ./scripts/build.vsh --static
+
+      - name: Upload To Release
+        if: github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload ${{ needs.release-create.outputs.release }} "./dg#dg-linux"
+
+  release-macos:
+    runs-on: macos-latest
+    needs: [release-create]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Deps
+        run: ./scripts/installDeps.sh useSystem
+
+      - name: Compil
+        run: ./deps/v-master/v run ./scripts/build.vsh
+
+      - name: Upload To Release
+        if: github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload ${{ needs.release-create.outputs.release }} "./dg#dg-macos"
