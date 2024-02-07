@@ -68,12 +68,15 @@ jobs:
       - name: Compil
         run: ./deps/v-master/v run ./scripts/build.vsh --static
 
+      - name: Mv
+        run: mv ./dg ./dg-linux
+
       - name: Upload To Release
         if: github.ref == 'refs/heads/main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload ${{ needs.release-create.outputs.release }} "./dg#dg-linux"
+          gh release upload ${{ needs.release-create.outputs.release }} "./dg-linux"
 
   release-macos:
     runs-on: macos-latest
@@ -89,9 +92,12 @@ jobs:
       - name: Compil
         run: ./deps/v-master/v run ./scripts/build.vsh
 
+      - name: Mv
+        run: mv ./dg ./dg-macos
+
       - name: Upload To Release
         if: github.ref == 'refs/heads/main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload ${{ needs.release-create.outputs.release }} "./dg#dg-macos"
+          gh release upload ${{ needs.release-create.outputs.release }} "./dg-macos"
